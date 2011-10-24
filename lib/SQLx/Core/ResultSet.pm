@@ -11,7 +11,7 @@ use SQL::Abstract;
 our $sql = SQL::Abstract->new;
 use vars qw/$sql/;
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head2 count
 
@@ -67,16 +67,16 @@ sub next {
         delete $self->{_it_max};
         return undef;
     }
-    my $rs = {
-        dbh    => $self->{dbh},
-        result => $self->{result}->[$pos], 
-        table  => $self->{table},
-        primary_key => $self->{primary_key},
-        r => $self->{r},
-        rs => $self->{rs},
-    };
+    #my $rs = {
+    #    dbh    => $self->{dbh},
+    #    result => $self->{result}->[$pos]->[0], 
+    #    table  => $self->{table},
+    #    primary_key => $self->{primary_key},
+    #    r => $self->{r},
+    #    rs => $self->{rs},
+    #};
     #return $self->{result}->[$pos];
-    return bless $rs, $self->{r};
+    return bless $self->{result}->[$pos], $self->{r};
 }
 
 =head2 primary_key
@@ -143,20 +143,21 @@ sub find {
     if (scalar @$fields == 0) { push @$fields, '*'; }
     my ($stmt, @bind) = $sql->select($self->{table}, $fields, $c);
     my ($wstmt, @wbind) = $sql->where($c);
-    my $r = {
-        dbh    => $self->{dbh},
-        result => $self->{dbh}->selectall_arrayref($stmt, { Slice => {} }, @bind)->[0],
-        stmt   => $wstmt,
-        bind   => \@wbind,
-        #where  => $sql->generate('where', $c),
-        where  => $c,
-        table  => $self->{table},
-        primary_key => $self->{primary_key},
-        r       => $self->{r},
-        rs      => $self->{rs},
-    };
+#    my $r = {
+#        dbh    => $self->{dbh},
+#        result => $self->{dbh}->selectall_arrayref($stmt, { Slice => {} }, @bind)->[0],
+#        stmt   => $wstmt,
+#        bind   => \@wbind,
+#        #where  => $sql->generate('where', $c),
+#        where  => $c,
+#        table  => $self->{table},
+#        primary_key => $self->{primary_key},
+#        r       => $self->{r},
+#        rs      => $self->{rs},
+#    };
 
-    return bless $r, $self->{r};
+    my $result = $self->{dbh}->selectall_arrayref($stmt, { Slice => {} }, @bind)->[0];
+    return bless $result, $self->{r};
 }
 
 =head2 insert

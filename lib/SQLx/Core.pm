@@ -7,7 +7,7 @@ use SQLx::Core::Schema;
 use SQLx::Core::ResultSet;
 use SQLx::Core::Result;
 
-$SQLx::Core::VERSION = '0.02';
+$SQLx::Core::VERSION = '0.03';
 
 =head1 NAME
 
