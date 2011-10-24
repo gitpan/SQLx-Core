@@ -11,7 +11,7 @@ use SQL::Abstract;
 our $sql = SQL::Abstract->new;
 use vars qw/$sql/;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head2 count
 
@@ -23,6 +23,18 @@ sub count {
     my $self = shift;
 
     return scalar @{$self->{result}};
+}
+
+=head2 first
+
+Get the first result from a resultset
+
+=cut
+
+sub first {
+    my $self = shift;
+
+    return bless $self->{result}->[0], $self->{r};
 }
 
 =head2 next
@@ -61,6 +73,7 @@ sub next {
         table  => $self->{table},
         primary_key => $self->{primary_key},
         r => $self->{r},
+        rs => $self->{rs},
     };
     #return $self->{result}->[$pos];
     return bless $rs, $self->{r};
@@ -100,22 +113,29 @@ The second parameter is a hash of keys and values of what to search for.
 
 sub search {
     my ($self, $fields, $c) = @_;
-    
     if (scalar @$fields == 0) { push @$fields, '*'; }
+    if (exists $self->{where}) {
+        for (keys %{$self->{where}}) {
+            $c->{$_} = $self->{where}->{$_};
+        }
+    }
+        
     my ($stmt, @bind) = $sql->select($self->{table}, $fields, $c);
     my ($wstmt, @wbind) = $sql->where($c);
+        
     my $result = {
         dbh    => $self->{dbh},
         result => $self->{dbh}->selectall_arrayref($stmt, { Slice => {} }, @bind),
         stmt   => $wstmt,
         bind   => \@wbind,
-        #where  => $sql->generate('where', $c),
         where  => $c,
         table  => $self->{table},
         primary_key => $self->{primary_key},
         r           => $self->{r},
+        rs          => $self->{rs},
     };
     return bless $result, $self->{rs};
+    #return $result;
 }
 
 sub find {
@@ -132,6 +152,8 @@ sub find {
         where  => $c,
         table  => $self->{table},
         primary_key => $self->{primary_key},
+        r       => $self->{r},
+        rs      => $self->{rs},
     };
 
     return bless $r, $self->{r};
@@ -166,6 +188,8 @@ sub insert {
             table  => $self->{table},
             result => $self->{dbh}->selectall_arrayref($stmt, { Slice => {} }, @bind),
             primary_key => $self->{primary_key},
+            r       => $self->{r},
+            rs      => $self->{rs},
         };
         
         return bless $rs, 'SQLx::Core::Result';

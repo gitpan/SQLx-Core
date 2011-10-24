@@ -7,7 +7,7 @@ use SQLx::Core::Schema;
 use SQLx::Core::ResultSet;
 use SQLx::Core::Result;
 
-$SQLx::Core::VERSION = '0.01';
+$SQLx::Core::VERSION = '0.02';
 
 =head1 NAME
 
@@ -17,6 +17,7 @@ SQLx::Core - Object Oriented access to DBI
 
 Access the DBI module in a friendly, and OO fashion. Create sub-routines for your results 
 and manipulate them in any way possible by Perl.
+As of 0.02 you can now chain custom methods together for more powerful search results.
 
 =head1 SYNOPSIS
 

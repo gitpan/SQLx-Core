@@ -15,7 +15,7 @@ our $sql = SQL::Abstract->new;
 
 use vars qw/$sql/;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head2 result
 
