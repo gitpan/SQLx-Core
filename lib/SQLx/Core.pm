@@ -3,15 +3,17 @@ package SQLx::Core;
 use 5.010;
 use DBI;
 
-use SQLx::Core::Schema;
-use SQLx::Core::ResultSet;
-use SQLx::Core::Result;
+use base qw/
+    SQLx::Core::Schema
+    SQLx::Core::ResultSet
+    SQLx::Core::Result
+/;
 
-$SQLx::Core::VERSION = '0.03';
+$SQLx::Core::VERSION = '0.04';
 
 =head1 NAME
 
-SQLx::Core - Object Oriented access to DBI
+SQLx::Core - Object Oriented SQL access in Perl.
 
 =head1 DESCRIPTION
 
@@ -33,23 +35,26 @@ As of 0.02 you can now chain custom methods together for more powerful search re
     # MySchema/ResultSet/MyTable.pm
     package MySchema::ResultSet::MyTable;
 
-    use base 'SQLx::Core::ResultSet';
+    use base 'SQLx::Core';
 
     sub table { 'my_real_table_name'; } # Important!
 
-    sub rows { my $self = shift; return $self->count; }
+    sub rows { return shift->count; }
     
     1;
 
     # MySchema/Result/MyTable.pm
     package MySchema::Result::MyTable;
     
-    use base 'SQLx::Core::Result';
+    use base 'SQLx::Core';
     
+    # create a simple accessor
     sub name {
         my $self = shift;
-        return $self->{result}->{name};
+        return $self->{name};
     }
+
+    sub id { return shift->{id}; }
 
     1;
 
@@ -63,13 +68,21 @@ As of 0.02 you can now chain custom methods together for more powerful search re
     my $rs = $schema->resultset('MyTable');
     my $rset = $rs->search([], { status => 'active' });
     
+    # "rows" is the resultset method we created
     print "Rows: " . $rset->rows . "\n";
     while(my $row = $rset->next) {
-        print $row->{id};
+        print $row->id;
     }
 
     my $rset2 = $rs->find([], { id => 4 });
     print $rset2->name . "\n";
+
+    # slurp all results into a resultset
+    my $all = $rs->all;
+
+    # get the first and last results.. plus we want the name using our result method
+    my $last_name = $rs->all->last->name;
+    my $first_name = $rs->all->first->name;
 
 =cut
 

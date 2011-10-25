@@ -11,7 +11,7 @@ use SQL::Abstract;
 our $sql = SQL::Abstract->new;
 use vars qw/$sql/;
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head2 count
 
@@ -25,6 +25,20 @@ sub count {
     return scalar @{$self->{result}};
 }
 
+=head2 all
+
+Returns all rows in a table as a resultset
+
+    my $rs = $schema->resultset('Users')->all;
+
+=cut
+
+sub all {
+    my $self = shift;
+
+    return $self->search([], {});
+}
+
 =head2 first
 
 Get the first result from a resultset
@@ -35,6 +49,18 @@ sub first {
     my $self = shift;
 
     return bless $self->{result}->[0], $self->{r};
+}
+
+=head2 last
+
+Get the last result from a resultset
+
+=cut
+
+sub last {
+    my $self = shift;
+
+    return bless $self->{result}->[ scalar(@{$self->{result}}-1) ], $self->{r};
 }
 
 =head2 next
