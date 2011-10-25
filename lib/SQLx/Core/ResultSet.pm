@@ -11,7 +11,7 @@ use SQL::Abstract;
 our $sql = SQL::Abstract->new;
 use vars qw/$sql/;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 =head2 count
 
@@ -240,7 +240,19 @@ sub update {
 
     my ($stmt, @bind) = $sql->update($self->{table}, $fieldvals, $self->{where});
     my $sth = $self->{dbh}->prepare($stmt);
-    if ($sth->execute(@bind)) { return 1; }
+    if ($sth->execute(@bind)) {
+        my ($sstmt, @sbind) = $sql->select($self->{table}, ['*'], $self->{where});
+        my $rs = {
+            dbh    => $self->{dbh},
+            where  => $self->{where},
+            table  => $self->{table},
+            result => $self->{dbh}->selectall_arrayref($sstmt, { Slice => {} }, @sbind),
+            primary_key => $self->{primary_key},
+            r       => $self->{r},
+            rs      => $self->{rs},
+        };
+        return bless $rs, $self->{rs};
+    }
     else { return 0; }
 }
 

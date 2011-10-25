@@ -15,6 +15,6 @@ our $sql = SQL::Abstract->new;
 
 use vars qw/$sql/;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 1;
