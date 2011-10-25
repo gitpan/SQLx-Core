@@ -1,5 +1,5 @@
 ---
-abstract: 'Object Oriented SQL access in Perl.'
+abstract: 'Object Oriented SQL Queries in Perl.'
 author:
   - 'Brad Haywood <brad@geeksware.net>'
   - 'Brad Haywood <brad@geeksware.net>'
@@ -23,4 +23,4 @@ requires:
   perl: 5.10.0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.04
+version: 0.05

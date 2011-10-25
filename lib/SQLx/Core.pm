@@ -9,11 +9,11 @@ use base qw/
     SQLx::Core::Result
 /;
 
-$SQLx::Core::VERSION = '0.04';
+$SQLx::Core::VERSION = '0.05';
 
 =head1 NAME
 
-SQLx::Core - Object Oriented SQL access in Perl.
+SQLx::Core - Object Oriented SQL Queries in Perl.
 
 =head1 DESCRIPTION
 
@@ -83,6 +83,10 @@ As of 0.02 you can now chain custom methods together for more powerful search re
     # get the first and last results.. plus we want the name using our result method
     my $last_name = $rs->all->last->name;
     my $first_name = $rs->all->first->name;
+
+    # update rows
+    my $s = $rs->search([], { status => 'disabled' });
+    $s->update({status => 'active'});
 
 =cut
 
