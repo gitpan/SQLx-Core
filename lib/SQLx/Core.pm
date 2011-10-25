@@ -9,7 +9,7 @@ use base qw/
     SQLx::Core::Result
 /;
 
-$SQLx::Core::VERSION = '0.06';
+$SQLx::Core::VERSION = '0.08';
 
 =head1 NAME
 
@@ -26,10 +26,9 @@ As of 0.02 you can now chain custom methods together for more powerful search re
     # MySchema.pm
     package MySchema;
     use base 'SQLx::Core';
-    
-    use MySchema::ResultSet::MyTable;
-    use MySchema::Result::MyTable;
-
+   
+    __PACKAGE__->load_namespaces;
+ 
     1;
 
     # MySchema/ResultSet/MyTable.pm

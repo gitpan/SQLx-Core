@@ -11,7 +11,19 @@ use SQL::Abstract;
 our $sql = SQL::Abstract->new;
 use vars qw/$sql/;
 
-our $VERSION = '0.06';
+our $VERSION = '0.08';
+
+=head2 fetch
+
+Fetches the results for the entire resulset
+
+=cut
+
+sub fetch {
+    my $self = shift;
+
+    return $self->{result}
+}
 
 =head2 count
 
