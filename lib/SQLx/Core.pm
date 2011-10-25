@@ -9,7 +9,7 @@ use base qw/
     SQLx::Core::Result
 /;
 
-$SQLx::Core::VERSION = '0.08';
+$SQLx::Core::VERSION = '0.09';
 
 =head1 NAME
 

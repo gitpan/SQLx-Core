@@ -1,6 +1,6 @@
 package SQLx::Core::Schema;
 
-our $VERSION = '0.08';
+our $VERSION = '0.09';
 
 sub resultset {
     my ($self, $table) = @_;
