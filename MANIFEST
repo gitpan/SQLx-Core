@@ -28,6 +28,7 @@ SQLx-Core-0.06.tar.gz
 SQLx-Core-0.07.tar.gz
 SQLx-Core-0.08.tar.gz
 SQLx-Core-0.09.tar.gz
+SQLx-Core-0.10.tar.gz
 t/00-load.t
 t/01-connect.t
 t/db/test.db

@@ -1,6 +1,6 @@
 package SQLx::Core::Schema;
 
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 sub resultset {
     my ($self, $table) = @_;
@@ -16,7 +16,6 @@ sub load_namespaces {
     my $class_d = $class;
     $class_d =~ s/::/\-/g;
     $class_d = "$class_d/lib/";
-    print $class_d . "\n";
     my $mf = Module::Finder->new(
         dirs  => [@INC],
         paths => {
