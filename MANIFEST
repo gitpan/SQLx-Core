@@ -27,7 +27,13 @@ SQLx-Core-0.05.tar.gz
 SQLx-Core-0.06.tar.gz
 SQLx-Core-0.07.tar.gz
 SQLx-Core-0.08.tar.gz
+SQLx-Core-0.09.tar.gz
 t/00-load.t
+t/01-connect.t
+t/db/test.db
 t/manifest.t
 t/pod-coverage.t
 t/pod.t
+t/SQLx/Test/Schema.pm
+t/SQLx/Test/Schema/Result/Foo.pm
+t/SQLx/Test/Schema/ResultSet/Foo.pm

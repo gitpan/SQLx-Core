@@ -20,7 +20,10 @@ no_index:
     - inc
     - t
 requires:
+  DBD::SQLite: 0
+  Module::Finder: 0
+  SQL::Abstract: 0
   perl: 5.10.0
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.09
+version: 0.10
